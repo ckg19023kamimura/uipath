@@ -63,9 +63,17 @@
   <Flowchart DisplayName="フローチャート2" sap:VirtualizedContainerService.HintSize="634,636" sap2010:WorkflowViewState.IdRef="Flowchart_1">
     <Flowchart.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="kekka" />
-      <Variable x:TypeArguments="x:Int32" Name="line" />
+      <Variable x:TypeArguments="x:Int32" Name="line">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Int32" Value="15" />
+        </Variable.Default>
+      </Variable>
       <Variable x:TypeArguments="x:String" Name="before" />
       <Variable x:TypeArguments="x:Int32" Name="sheetcount" />
+      <Variable x:TypeArguments="x:Int32" Name="合計" />
+      <Variable x:TypeArguments="x:Int32" Name="count" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="計" />
+      <Variable x:TypeArguments="x:Double" Name="税" />
     </Flowchart.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -76,9 +84,9 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <Flowchart.StartNode>
-      <x:Reference>__ReferenceID1</x:Reference>
+      <x:Reference>__ReferenceID2</x:Reference>
     </Flowchart.StartNode>
-    <FlowStep x:Name="__ReferenceID1">
+    <FlowStep x:Name="__ReferenceID2">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <av:Point x:Key="ShapeLocation">200,127.5</av:Point>
@@ -127,173 +135,189 @@
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <av:Point x:Key="ShapeLocation">200,228.5</av:Point>
               <av:Size x:Key="ShapeSize">200,51</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">300,279.5 300,329.5</av:PointCollection>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel アプリケーション スコープ" sap:VirtualizedContainerService.HintSize="506,3298" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" InstanceCachePeriod="3000" WorkbookPath="excel\output.xlsx">
+          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel アプリケーション スコープ" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" InstanceCachePeriod="3000" WorkbookPath="e\output.xlsx">
             <ui:ExcelApplicationScope.Body>
               <ActivityAction x:TypeArguments="ui:WorkbookApplication">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="472,3189" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <Sequence DisplayName="シーケンス" sap:VirtualizedContainerService.HintSize="514,3381" sap2010:WorkflowViewState.IdRef="Sequence_4">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[kekka]" DisplayName="繰り返し (各行)" sap:VirtualizedContainerService.HintSize="430,3097" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
-                    <ui:ForEachRow.Body>
-                      <ActivityAction x:TypeArguments="sd:DataRow">
-                        <ActivityAction.Argument>
-                          <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
-                        </ActivityAction.Argument>
-                        <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="376,2950" sap2010:WorkflowViewState.IdRef="Sequence_2">
-                          <Sequence.Variables>
-                            <Variable x:TypeArguments="x:String" Name="領収書番号" />
-                            <Variable x:TypeArguments="x:String" Name="担当者" />
-                            <Variable x:TypeArguments="x:String" Name="EMail" />
-                            <Variable x:TypeArguments="x:String" Name="宛先" />
-                            <Variable x:TypeArguments="x:String" Name="件名" />
-                            <Variable x:TypeArguments="x:String" Name="適用" />
-                            <Variable x:TypeArguments="x:String" Name="型番" />
-                            <Variable x:TypeArguments="x:String" Name="数量" />
-                            <Variable x:TypeArguments="x:String" Name="単位" />
-                            <Variable x:TypeArguments="x:String" Name="単価" />
-                            <Variable x:TypeArguments="x:String" Name="発行日" />
-                          </Sequence.Variables>
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                          <WriteLine DisplayName="1 行を書き込み" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[&quot;領収書番号:&quot;+row(0).ToString]" />
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:Int32">[line]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:Int32">0</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:Int32">[sheetcount]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:Int32">1</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[before]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">0</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[領収書番号]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(0).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[担当者]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(2).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_6">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[EMail]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(3).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[宛先]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(4).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[件名]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(5).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_9">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[適用]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(6).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_10">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[型番]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(7).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_11">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[数量]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(8).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_12">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[単位]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(9).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_13">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[単価]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(10).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_14">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[発行日]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[row(1).ToString]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <ui:ExcelWriteCell Cell="G2" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_1" SheetName="Sheet1" Text="[発行日]" />
-                          <ui:ExcelWriteCell Cell="G3" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_2" SheetName="Sheet1" Text="[領収書番号]" />
-                          <ui:ExcelWriteCell Cell="B3" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_3" SheetName="Sheet1" Text="[宛先]" />
-                          <ui:ExcelWriteCell Cell="G7" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_4" SheetName="Sheet1" Text="[担当者]" />
-                          <ui:ExcelWriteCell Cell="G8" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_5" SheetName="Sheet1" Text="[EMail]" />
-                          <ui:ExcelWriteCell Cell="B15" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_6" SheetName="Sheet1" Text="[適用]" />
-                          <ui:ExcelWriteCell Cell="C15" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_7" SheetName="Sheet1" Text="[型番]" />
-                          <ui:ExcelWriteCell Cell="D15" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_8" SheetName="Sheet1" Text="[数量]" />
-                          <ui:ExcelWriteCell Cell="E15" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_9" SheetName="Sheet1" Text="[単位]" />
-                          <ui:ExcelWriteCell Cell="F15" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_10" SheetName="Sheet1" Text="[単価]" />
-                          <ui:ExcelWriteCell Cell="G15" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_11" SheetName="Sheet1" Text="[(integer.parse(単価)*integer.parse(数量)).ToString]" />
-                        </Sequence>
-                      </ActivityAction>
-                    </ui:ForEachRow.Body>
-                  </ui:ForEachRow>
+                  <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="472,3289" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="430,60" sap2010:WorkflowViewState.IdRef="Assign_15">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Int32">[line]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Int32">15</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[kekka]" DisplayName="繰り返し (各行)" sap:VirtualizedContainerService.HintSize="430,3097" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                      <ui:ForEachRow.Body>
+                        <ActivityAction x:TypeArguments="sd:DataRow">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="376,2950" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="領収書番号" />
+                              <Variable x:TypeArguments="x:String" Name="担当者" />
+                              <Variable x:TypeArguments="x:String" Name="EMail" />
+                              <Variable x:TypeArguments="x:String" Name="宛先" />
+                              <Variable x:TypeArguments="x:String" Name="件名" />
+                              <Variable x:TypeArguments="x:String" Name="適用" />
+                              <Variable x:TypeArguments="x:String" Name="型番" />
+                              <Variable x:TypeArguments="x:String" Name="数量" />
+                              <Variable x:TypeArguments="x:String" Name="単位" />
+                              <Variable x:TypeArguments="x:String" Name="単価" />
+                              <Variable x:TypeArguments="x:String" Name="発行日" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <WriteLine DisplayName="1 行を書き込み" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[&quot;領収書番号:&quot;+row(0).ToString]" />
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Int32">[sheetcount]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[before]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">0</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[領収書番号]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(0).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[担当者]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(2).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[EMail]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(3).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[宛先]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(4).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[件名]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(5).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[適用]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(6).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[型番]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(7).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_11">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[数量]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(8).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[単位]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(9).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_13">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[単価]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(10).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_14">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[発行日]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[row(1).ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <ui:ExcelWriteCell Cell="G2" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_1" SheetName="Sheet1" Text="[発行日]" />
+                            <ui:ExcelWriteCell Cell="G3" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_2" SheetName="Sheet1" Text="[領収書番号]" />
+                            <ui:ExcelWriteCell Cell="B3" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_3" SheetName="Sheet1" Text="[宛先]" />
+                            <ui:ExcelWriteCell Cell="G7" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_4" SheetName="Sheet1" Text="[担当者]" />
+                            <ui:ExcelWriteCell Cell="G8" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_5" SheetName="Sheet1" Text="[EMail]" />
+                            <ui:ExcelWriteCell Cell="[&quot;B&quot;+line.ToString]" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_6" SheetName="Sheet1" Text="[適用]" />
+                            <ui:ExcelWriteCell Cell="[&quot;C&quot;+line.ToString]" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_7" SheetName="Sheet1" Text="[型番]" />
+                            <ui:ExcelWriteCell Cell="[&quot;D&quot;+line.ToString]" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_8" SheetName="Sheet1" Text="[数量]" />
+                            <ui:ExcelWriteCell Cell="[&quot;E&quot;+line.ToString]" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_9" SheetName="Sheet1" Text="[単位]" />
+                            <ui:ExcelWriteCell Cell="[&quot;F&quot;+line.ToString]" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_10" SheetName="Sheet1" Text="[単価]" />
+                            <ui:ExcelWriteCell Cell="[&quot;G&quot;+line.ToString]" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_11" SheetName="Sheet1" Text="[(integer.parse(単価)*integer.parse(数量)).ToString]" />
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Int32">[line]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Int32">[line+1]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEachRow.Body>
+                    </ui:ForEachRow>
+                  </Sequence>
                 </Sequence>
               </ActivityAction>
             </ui:ExcelApplicationScope.Body>
@@ -303,9 +327,103 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
           </ui:ExcelApplicationScope>
+          <FlowStep.Next>
+            <FlowStep x:Name="__ReferenceID1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <av:Point x:Key="ShapeLocation">200,329.5</av:Point>
+                  <av:Size x:Key="ShapeSize">200,51</av:Size>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel アプリケーション スコープ" sap:VirtualizedContainerService.HintSize="488,1398" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_3" InstanceCachePeriod="3000" WorkbookPath="e\output.xlsx">
+                <ui:ExcelApplicationScope.Body>
+                  <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="454,1289" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="412,60" sap2010:WorkflowViewState.IdRef="Assign_17">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[合計]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="412,60" sap2010:WorkflowViewState.IdRef="Assign_18">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[count]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">15</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:InterruptibleWhile DisplayName="繰り返し (前判定)" sap:VirtualizedContainerService.HintSize="412,516" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_1">
+                        <ui:InterruptibleWhile.Body>
+                          <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="376,351" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:ExcelReadCell Cell="[&quot;G&quot;+count.ToString]" DisplayName="セルを読み込み" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadCell_1" SheetName="Sheet1">
+                              <ui:ExcelReadCell.Result>
+                                <OutArgument x:TypeArguments="ui:GenericValue">[計]</OutArgument>
+                              </ui:ExcelReadCell.Result>
+                            </ui:ExcelReadCell>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_19">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Int32">[合計]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Int32">[合計+Integer.parse(計)]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_20">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Int32">[count]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Int32">[count+1]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </ui:InterruptibleWhile.Body>
+                        <ui:InterruptibleWhile.Condition>
+                          <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="count&lt;21" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
+                        </ui:InterruptibleWhile.Condition>
+                      </ui:InterruptibleWhile>
+                      <ui:ExcelWriteCell Cell="G21" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="412,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_12" SheetName="Sheet1" Text="[合計.ToString]" />
+                      <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="412,60" sap2010:WorkflowViewState.IdRef="Assign_21">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Double">[税]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Double">[合計/10.0]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:ExcelWriteCell Cell="G22" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="412,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_13" SheetName="Sheet1" Text="[税.ToString]" />
+                      <ui:ExcelWriteCell Cell="G23" DisplayName="セルに書き込み" sap:VirtualizedContainerService.HintSize="412,87" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_14" SheetName="Sheet1" Text="[(合計+税).ToString]" />
+                    </Sequence>
+                  </ActivityAction>
+                </ui:ExcelApplicationScope.Body>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:ExcelApplicationScope>
+            </FlowStep>
+          </FlowStep.Next>
         </FlowStep>
       </FlowStep.Next>
     </FlowStep>
     <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID1</x:Reference>
   </Flowchart>
 </Activity>
